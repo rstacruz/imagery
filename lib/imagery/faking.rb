@@ -81,6 +81,14 @@ class Imagery
 
     # Implement the stubbed version of save and skips actual operation
     # if Imagery::Model.mode == :fake
+    def update_size(size, io)
+      return true if self.class.mode == :fake
+
+      super
+    end
+
+    # Implement the stubbed version of save and skips actual operation
+    # if Imagery::Model.mode == :fake
     def delete
       return true if self.class.mode == :fake
 

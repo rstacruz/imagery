@@ -75,7 +75,19 @@ class Imagery
         GM.convert root(ext(@original)), root(ext(size)), resize, extent
       end
     end
-  
+
+    # Updates a certain size (`size`) with another file.
+    #
+    # The second parameter `io` can be a File IO, or a filename string.
+    def update_size(size, io)
+      resize, extent = sizes[size.to_sym]
+      filename = io.respond_to?(:path) ? io.path : io.to_s
+
+      if resize && File.exist?(filename)
+        GM.convert filename, root(ext(size)), resize, extent
+      end
+    end
+
     # A very simple and destructive method. Deletes the entire folder
     # for the current prefix/key combination.
     def delete

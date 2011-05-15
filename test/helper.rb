@@ -3,6 +3,10 @@ $:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
 require "cutest"
 require "imagery"
 
+def assert_equal(left, right)
+  assert left == right
+end
+
 def fixture(filename)
   File.expand_path("fixtures/#{filename}", File.dirname(__FILE__))
 end

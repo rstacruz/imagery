@@ -112,6 +112,20 @@ scope do
     # Like small.jpg, it will be resized to fit within 30x30
     assert_equal "30x23", resolution(im.root("tiny.jpg"))
   end
+
+  test "update a size" do |im, io|
+    assert im.save(io)
+
+    FileUtils.rm im.root("small.jpg")
+    assert ! File.exist?(im.root("small.jpg"))
+
+    thumb_io = File.open(fixture("r8-crop.jpg"), "rb")
+
+    im.update_size :small, thumb_io
+    assert File.exist?(im.root("small.jpg"))
+
+    assert_equal "100x75", resolution(im.root("small.jpg"))
+  end
 end
 
 # resizing with extent

@@ -68,12 +68,14 @@ scope do
 
   test "saves all sizes to S3" do |im, io|
     im.save(io)
+    im.update_size(:small, io)
   
     cmds = Imagery::S3::Gateway.commands
 
     assert_equal [:store, "avatar/1001/original.jpg", "buck"], cmds.shift
     assert_equal [:store, "avatar/1001/small.jpg", "buck"], cmds.shift
     assert_equal [:store, "avatar/1001/medium.jpg", "buck"], cmds.shift
+    assert_equal [:store, "avatar/1001/small.jpg", "buck"], cmds.shift
 
     assert cmds.empty?
   end

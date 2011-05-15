@@ -77,15 +77,24 @@ class Imagery
     def save(io, key = nil)
       super
 
-      keys.each do |file|
-        Gateway.store(s3_key(file),
-          File.open(root(ext(file))),
-          self.class.s3_bucket,
-          :access => :public_read,
-          :content_type => "image/jpeg",
-          "Cache-Control" => "max-age=315360000"
-        )
-      end
+      keys.each { |file| store file }
+    end
+
+    def update_size(size, io)
+      super
+
+      store size
+    end
+
+  private
+    def store(file)
+      Gateway.store(s3_key(file),
+        File.open(root(ext(file))),
+        self.class.s3_bucket,
+        :access => :public_read,
+        :content_type => "image/jpeg",
+        "Cache-Control" => "max-age=315360000"
+      )
     end
   
     # Provides a convenience wrapper around AWS::S3::S3Object and
